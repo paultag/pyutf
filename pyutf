@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import sys
+import math
+
+crap = {
+    "π": math.pi,
+    "ℤ": "int",
+    "∀": "for",
+    "∈": "in",
+    "λ": "lambda",
+}
+
+buff = ""
+fd = open(sys.argv[1], 'r')
+for f in fd.readlines():
+    for repl in crap:
+        f = f.replace(repl, str(crap[repl]))
+    buff += "%s\n" % f
+
+exec(buff)
