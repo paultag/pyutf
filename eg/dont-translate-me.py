@@ -1,3 +1,5 @@
+#!/usr/bin/env pyutf
+
 print "i know that pi (greek notation: π) = 3.1416..." 
 print 'i also know that integer can be written by this symbol: ℤ' 
 print "thefore, π", "∈" if ℤ(π) == π else "∉", "ℤ."
