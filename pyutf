@@ -6,6 +6,7 @@ import math
 import re
 
 crap = {
+    "e": math.e,
     "π": math.pi,
     "ℤ": "int",
     "∀": "for",
@@ -13,7 +14,13 @@ crap = {
     "λ": "lambda",
     r"(\"{1,3}|\'{1,3})([^\1\\]*?(\\.[^\1\\]*?)*?)\1": None,
 }
-patt = '|'.join(k for k in crap)
+extr = {
+    "e",
+}
+def wrap(word):
+    return r"\b%s\b" % word
+
+patt = '|'.join(k if k not in extr else wrap(k) for k in crap)
 
 def repl(matched):
     if matched.group()[0] in ('"', "'"):
