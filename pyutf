@@ -3,6 +3,7 @@
 
 import sys
 import math
+import re
 
 crap = {
     "π": math.pi,
@@ -11,12 +12,9 @@ crap = {
     "∈": "in",
     "λ": "lambda",
 }
+patt = '|'.join(k for k in crap)
 
-buff = ""
 fd = open(sys.argv[1], 'r')
-for f in fd.readlines():
-    for repl in crap:
-        f = f.replace(repl, str(crap[repl]))
-    buff += "%s\n" % f
+buff = re.sub(patt, lambda matched: str(crap[matched.group()]), fd.read())
 
 exec(buff)
