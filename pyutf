@@ -1,9 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
+import argparse
 import math
 import re
+
+parser = argparse.ArgumentParser(description="(main description)")
+parser.add_argument("files", metavar="FILE", nargs="*",
+                    type=argparse.FileType("r"),
+                    help="(input files help)")
+parser.add_argument("-t", "--translate", action="store_const",
+                    dest="translate", const=True, default=False,
+                    help="(translate / exec help)")
+parser.add_argument("-s", "--show-source", action="store_const",
+                    dest="show_source", const=True, default=False,
+                    help="(show translate's source / write file help)")
+args = parser.parse_args()
+
+if len(args.files) == 0:
+    parser.print_help()
+if args.show_source:
+    args.translate = True
 
 crap = {
     "e": math.e,
@@ -28,7 +45,19 @@ def repl(matched):
     else:
         return str(crap[matched.group()])
 
-fd = open(sys.argv[1], 'r')
-buff = re.sub(patt, repl, fd.read())
-
-exec(buff)
+for fd in args.files:
+    buff = re.sub(patt, repl, fd.read())
+    if args.translate:
+        if args.show_source:
+            print buff
+        else:
+            if fd.name[-2:] == ".π":
+                wo = fd.name[:-2] + ".py"
+            else:
+                wo = fd.name + ".py"
+            open(wo, "w").write(buff)
+    else:
+        if len(args.files) > 1:
+            print '>>> (exec file:', fd.name, '& out put is)'
+        exec(buff)
+        print
