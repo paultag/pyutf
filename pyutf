@@ -9,6 +9,9 @@ class Symbol:
     """Symbolic class for UTF & others."""
 
     utf = { "π": math.pi,
+            "≤": "<=",
+            "≥": ">=",
+            "≠": "!=",
             "ℤ": "int",
             "∀": "for",
             "∈": "in",
